@@ -240,7 +240,7 @@ python 2 无法在生成器中使用 return 语句。但是生成器中抛出的
 
 ```python
 try:
-    yield = gen.send(value)
+    yielded = gen.send(value)
 except Return as e:
 ```
 
