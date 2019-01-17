@@ -194,6 +194,11 @@ class IOLoop(object):，
 协程返回 Future 对象，供外层的协程处理。外部通过操作该 Future 控制协程的运行。  
 每个 yield 对应一个协程，每个协程拥有一个 Future 对象。
 
+外部协程获取到内部协程的 Future 对象，如果内部协程尚未结束，将 Runner.run() 方法注册到 内部协程的 Future 的结束回调。  
+这样，在内部协程结束时，会调用注册的 run() 方法，从而驱动外部协程向前执行。
+
+各个协程通过 Future 形成一个链式回调关系。
+
 Runner 类在下面单独小节描述。
 
 ```python
@@ -258,6 +263,17 @@ class Return(Exception):
 
 Runner 是协程的驱动器类。
 
+self.result_future 保存当前协程的状态。  
+self.future 保存 yield 子协程传递回来的协程状态。
+从子协程的 future 获取协程运行结果 send 给当前协程，以驱动协程向前执行。
+
+注意，会判断子协程返回的 future  
+如果 future 已经 set_result，代表子协程运行结束，回到 while Ture 循环，继续往下执行下一个 send；  
+如果 future 未 set_result，代表子协程运行未结束，将 self.run 注册到子协程结束的回调，这样，子协程结束时会调用 self.run，重新驱动协程执行。
+
+如果本协程 send() 执行过程中，捕获到 StopIteration 或者 Return 异常，说明本协程执行结束，设置 result_future 的协程返回值，此时，注册的回调函数被执行。这里的回调函数为本协程的父协程所注册的 run()。  
+相当于唤醒已经处于 yiled 状态的父协程，通过 IOLoop 回调 run 函数，再执行 send()。
+
 ```python
 class Runner(object):
     def __init__(self, gen, result_future, first_yielded):
@@ -307,7 +323,21 @@ class Runner(object):
 
 ```
 
+![](https://github.com/TheBigFish/blog/raw/master/assets/tornado_simple_routine_1.png)
+
 ## sleep
+
+sleep 是一个延时协程，充分展示了协程的标准实现。
+
+创建一个 Future，并返回给外部协程。  
+在设置的延时后，会回调 set_result 结束协程。
+
+```python
+def sleep(duration):
+    f = Future()
+    IOLoop.instance().call_later(duration, lambda: f.set_result(None))
+    return f
+```
 
 ## copyright
 
