@@ -327,13 +327,14 @@ class Runner(object):
 
 sleep 是一个延时协程，充分展示了协程的标准实现。
 
-创建一个 Future，并返回给外部协程；  
-外部协程发现是一个未完的状态，将 run()注册到 Future 的完成回调，同时外部协程被挂起；  
-在设置的延时后，IOLoop 会回调 set_result 结束协程；  
-同时调用 run() 函数；  
-同时调用 send()，唤醒挂起的外部协程。
+- 创建一个 Future，并返回给外部协程；
+- 外部协程发现是一个未完的状态，将 run()注册到 Future 的完成回调，同时外部协程被挂起；
+- 在设置的延时后，IOLoop 会回调 set_result 结束协程；
+- IOLoop 调用 run() 函数；
+- IOLoop 调用 send()，唤醒挂起的外部协程。
 
 流程如下图：
+
 ![](https://github.com/TheBigFish/blog/raw/master/assets/tornado_simple_routine_1.png)
 
 ```python
