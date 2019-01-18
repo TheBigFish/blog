@@ -344,6 +344,71 @@ def sleep(duration):
     return f
 ```
 
+## 运行
+
+```python
+@coroutine
+def routine_ur(url, wait):
+    yield sleep(wait)
+    print('routine_ur {} took {}s to get!'.format(url, wait))
+
+
+@coroutine
+def routine_url_with_return(url, wait):
+    yield sleep(wait)
+    print('routine_url_with_return {} took {}s to get!'.format(url, wait))
+    raise Return((url, wait))
+
+# 非生成器协程，不会为之生成单独的 Runner()
+# coroutine 运行结束后，直接返回一个已经执行结束的 future
+@coroutine
+def routine_simple():
+    print("it is simple routine")
+
+@coroutine
+def routine_simple_return():
+    print("it is simple routine with return")
+    raise Return("value from routine_simple_return")
+
+@coroutine
+def routine_main():
+    yield routine_simple()
+
+    yield routine_ur("url0", 1)
+
+    ret = yield routine_simple_return()
+    print(ret)
+
+    ret = yield routine_url_with_return("url1", 1)
+    print(ret)
+
+    ret = yield routine_url_with_return("url2", 2)
+    print(ret)
+
+
+if __name__ == '__main__':
+    IOLoop.instance().run_sync(routine_main)
+```
+
+运行输出为：
+
+```
+it is simple routine
+routine_ur url0 took 1s to get!
+it is simple routine with return
+value from routine_simple_return
+routine_url_with_return url1 took 1s to get!
+('url1', 1)
+routine_url_with_return url2 took 2s to get!
+('url2', 2)
+```
+
+可以观察到协程 sleep 已经生效。
+
+## 源码
+
+[simple_coroutine.py](https://github.com/TheBigFish/simple-python/blob/master/tornado/simple_coroutine.py)
+
 ## copyright
 
 author：bigfish  
