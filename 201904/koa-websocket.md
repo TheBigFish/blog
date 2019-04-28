@@ -103,9 +103,14 @@ routes/ws.js
 ```js
 const router = require('koa-router')()
 
+const sleep = async duration => new Promise((resolve, reject) => {
+    setTimeout(resolve, duration)
+})
+
 router.prefix('/ws')
 
-router.get('/a1', function (ctx, next) {
+router.get('/a1', async function (ctx, next) {
+    await sleep(2000);
     ctx.websocket.send('Hello a1');
 })
 
