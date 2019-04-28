@@ -657,6 +657,12 @@ function QObject(name, data, webChannel) {
    * Invokes all callbacks for the given signalname. Also works for property notify callbacks.
    */
   // 对信号注册的多个回调函数逐一进行回调
+  /*
+  这里注意 apply
+  返回的数据： {"args":[["1403","0","","1401"]],"object":"CardDispend","signal":5,"type":1}
+  从而args是一个数组的数组，使用 apply 后，数组的元素会被作为参数调用，此时的参数为
+  ["1403","0","","1401"]，是一个一维数组
+  */
   function invokeSignalCallbacks(signalName, signalArgs) {
     var connections = object.__objectSignals__[signalName];
     if (connections) {
