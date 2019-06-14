@@ -592,6 +592,9 @@ function QObject(name, data, webChannel) {
   };
 
   // 注册信号
+  // 给对象增加 connect 和 disconnect 两个属性函数
+  // 用户调用 对象名.信号名.connect 给信号注册回调函数
+  // 当收到回调事件时候，调用对应的函数
   function addSignal(signalData, isPropertyNotifySignal) {
     var signalName = signalData[0];
     var signalIndex = signalData[1];
