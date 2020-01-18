@@ -1,8 +1,4 @@
-# Orange-s-code
-
-resource/freedos-img.tar.gz
-
-freedos 软盘镜像
+# ubuntu12.04 上搭建 bochs2.3.5 调试环境
 
 ## 环境搭建
 
