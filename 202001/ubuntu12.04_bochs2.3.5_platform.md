@@ -1,4 +1,10 @@
+<!-- en_title: ubuntu12.04_bochs2.3.5_platform -->
+
 # ubuntu12.04 上搭建 bochs2.3.5 调试环境
+
+在 ubuntu12.04 64 位环境下使用源码编译 bochs2.3.5 带 debug 带 gui 版本。
+
+<!-- more -->
 
 ## 环境搭建
 
