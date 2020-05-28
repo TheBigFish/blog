@@ -42,6 +42,12 @@ usbguard-applet-qt
 
 - `sudo usbguard list-devices`:  
 
+- `sudo usbguad block-device id`:
+
+*这里的id不是vid:pid, 而是 list-devices 列出来的序列号*
+比如：
+`sudo usbguard block-device 12`
+
 使用 usbguard 命令查看各种设备状态、策略
 
 ```shell
