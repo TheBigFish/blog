@@ -7,3 +7,7 @@
 
 uefi 通过该变量运行 grub uefi 文件。grub 再去引导内核。
 
+## 打开调试
+
+grub.cfg 增加一行  
+`set debug=all`
