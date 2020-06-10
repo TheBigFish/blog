@@ -4,4 +4,6 @@
 
 ## linux
 
-[linux 工具合集](202005/linux_tools.md)
+[uefi 启动过程](202005/uefi启动过程.md)  
+[linux 工具合集](202005/linux_tools.md)  
+
