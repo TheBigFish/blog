@@ -110,6 +110,15 @@ self.policy_interface = dbus.Interface(policy_object, dbus_interface='org.usbgua
 self.signal_interface.connect_to_signal('DevicePresenceChanged', self.on_device_presence_changed)
 ```
 
+## U盘唯一序列号
+
+```bash
+/bin/udevadm info --name=/dev/sdc1 | grep SERIAL
+E: ID_SERIAL=Kingston_DataTraveler_3.0_60A44CB46458B381473CE328-0:0
+E: ID_SERIAL_SHORT=60A44CB46458B381473CE328
+```
+
+
 ## D-Bus 工具
 
 ### d-feet

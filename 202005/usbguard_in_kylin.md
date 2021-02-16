@@ -13,7 +13,7 @@
 安装  
 `sudo dpkg -i *.deb`  
 缺乏依赖则使用  
-`sudo apt install ` 安装缺失包
+`sudo apt install` 安装缺失包
 
 ## 测试 usbguard
 
@@ -75,7 +75,6 @@ ubuntu 18.04 apt 安装 usbguard，不存在上述问题。
 - usbguard-daemon 进程启动
 
 分析 usbguard-daemon.conf, 无异常
-
 2. 考虑是否有关联服务:
 
 ```bash
@@ -103,7 +102,7 @@ bigfish@bigfish:~$ sudo systemctl status usbguard-dbus
 
 该服务开机运行，并启动了 `/usr/sbin/usbguard-dbus --system`
 
-3. 分析 `usbguard-dbus.service`
+1. 分析 `usbguard-dbus.service`
 
 ```bash
 bigfish@bigfish:~$ cat /lib/systemd/system/usbguard-dbus.service
